@@ -45,19 +45,6 @@ impl VnishV120 {
             ),
         }
     }
-
-    pub fn with_auth(ip: IpAddr, model: MinerModel, password: String) -> Self {
-        VnishV120 {
-            ip,
-            web: VnishWebAPI::with_auth(ip, password),
-            device_info: DeviceInfo::new(
-                MinerMake::from(model.clone()),
-                model,
-                MinerFirmware::VNish,
-                HashAlgorithm::SHA256,
-            ),
-        }
-    }
 }
 
 #[async_trait]
@@ -708,10 +695,6 @@ impl SetPools for VnishV120 {
                 })
             })
             .collect();
-
-        if pools.is_empty() {
-            return Err(anyhow::anyhow!("No pools provided"));
-        }
 
         Ok(self
             .web

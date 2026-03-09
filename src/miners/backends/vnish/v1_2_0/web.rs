@@ -85,12 +85,6 @@ impl VnishWebAPI {
         }
     }
 
-    pub fn with_auth(ip: IpAddr, password: String) -> Self {
-        let mut client = Self::new(ip, 80);
-        client.password = Some(password);
-        client
-    }
-
     /// Ensure authentication token is present, authenticate if needed
     async fn ensure_authenticated(&self) -> anyhow::Result<(), VnishError> {
         if self.bearer_token.read().await.is_none() && self.password.is_some() {
